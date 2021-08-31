@@ -1,0 +1,4 @@
+name: Command-Manager
+author: Sothis
+version: 1.0.0
+main: fr.sothis.commandmanager.Main
