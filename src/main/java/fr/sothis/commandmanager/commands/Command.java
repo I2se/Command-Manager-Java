@@ -11,14 +11,18 @@ public class Command {
     private final List<String> aliases = new ArrayList<>();
     private final List<String> requiredArgsNames = new ArrayList<>();
     private final List<String> optionalArgsNames = new ArrayList<>();
-    private final String description = "";
+    private String description = "";
     private Command parent;
+
+    public Command(String name) {
+        this.name = name;
+    }
 
     public String getUsage() {
         StringBuilder builder = new StringBuilder();
 
         this.requiredArgsNames.forEach(argName -> builder.append("<").append(argName).append(">").append(" "));
-        this.optionalArgsNames.forEach(argName -> builder.append("<").append(argName).append(">").append(" "));
+        this.optionalArgsNames.forEach(argName -> builder.append("[").append(argName).append("]").append(" "));
 
         return builder.toString();
     }
@@ -30,7 +34,7 @@ public class Command {
                 String firstArg = args[0];
 
                 Optional<Command> subCommand = this.subCommands.stream()
-                        .filter(command -> command.getAliases().contains(firstArg))
+                        .filter(command -> command.getAliases().contains(firstArg) || command.getName().equalsIgnoreCase(firstArg))
                         .findFirst();
 
                 if (subCommand.isPresent()) {    // Can a subcommand be executed
@@ -44,15 +48,14 @@ public class Command {
         }
 
         if (args.length < this.requiredArgsNames.size()) {
+            System.out.println("Wrong usage : " + this.getUsage());
             return;
         }
 
         this.execute(args);
     }
     
-    public void execute(String[] args) {
-        
-    }
+    public abstract void execute(String[] args);
 
     public void addSubCommand(Command... subCommands) {
         for (Command subCommand : subCommands) {
@@ -79,6 +82,10 @@ public class Command {
 
     public void setParent(Command parent) {
         this.parent = parent;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public List<Command> getSubCommands() {
