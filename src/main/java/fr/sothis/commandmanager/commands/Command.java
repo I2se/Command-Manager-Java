@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Command {
+public abstract class Command {
 
+    private final String name;
     private final List<Command> subCommands = new ArrayList<>();
     private final List<String> aliases = new ArrayList<>();
     private final List<String> requiredArgsNames = new ArrayList<>();
