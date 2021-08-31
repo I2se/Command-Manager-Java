@@ -1,8 +1,9 @@
 package fr.sothis.commandmanager;
 
-import org.bukkit.plugin.java.JavaPlugin;
+public class Main {
 
-public class Main extends JavaPlugin {
-
+    public static void main(String[] args) {
+        
+    }
 
 }
